@@ -1,7 +1,7 @@
 # Corona Calculator
-This is an open source utility/business app make with the Corona SDK framework.
+This is an open source utility/business app made with the Corona SDK framework.
 
-This mirrors the default Apple calculator in iOS for the iPhone. Perform basic calcuations with this app.
+This mirrors the default Apple calculator on iOS for the iPhone. Perform basic calcuations with this app.
 
 Learn more about Corona SDK:
 https://coronalabs.com
