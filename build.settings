@@ -3,49 +3,30 @@
 -- http://docs.coronalabs.com/guide/distribution/buildSettings/index.html
 --
 
-settings =
-{
-	orientation =
-	{
+settings = {
+	orientation = {
 		-- Supported values for orientation:
 		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 
 		default = "portrait",
-		supported = { "portrait", }
-	},
-	
-	excludeFiles =
-	{
-		-- Include only the necessary icon files on each platform
-		iphone = { "Icon-*dpi.png", },
-		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png", },
+		supported = { "portrait", "portraitUpsideDown" }
 	},
 
-	--
-	-- iOS Section
-	--
-	iphone =
-	{
-		plist =
-		{
+	excludeFiles = {
+		-- Include only the necessary icon files on each platform
+		iphone = { "Icon-*dpi.png" },
+		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png" },
+	},
+
+	iphone = {
+		plist = {
 			UIStatusBarHidden = false,
 			UIPrerenderedIcon = true, -- set to false for "shine" overlay
 
-			CFBundleIconFiles =
-			{
+			CFBundleIconFiles = {
 				"Icon.png",
 				"Icon@2x.png"
-			},
+			}
 		}
-	},
-	
-	--
-	-- Android Section
-	--
-	android =
-	{
-		usesPermissions =
-		{
-		},
-	},
+	}
 }

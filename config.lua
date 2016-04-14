@@ -1,10 +1,8 @@
-application =
-{
-	content =
-	{
+application = {
+	content = {
 		width = 320,
-		height = 480, 
+		height = 480,
 		scale = "letterbox",
-		fps = 30,
-	},
+		fps = 60
+	}
 }
