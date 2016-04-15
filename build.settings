@@ -17,6 +17,15 @@ settings = {
 		iphone = { "Icon-*dpi.png" },
 		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png" },
 	},
+   
+   	window = {
+      	titleText = {
+         	default = "Calculator",
+        },
+     	defaultViewWidth = 320,
+     	defaultViewHeight = 480,
+     	resizable = false
+   	},
 
 	iphone = {
 		plist = {
