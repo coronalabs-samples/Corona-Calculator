@@ -221,7 +221,9 @@ local function onKeyEvent( event )
 		key = "*"
 	elseif key == "5" and event.isShiftDown then
 		key = "%"
-	elseif key == "-" and event.isAltDown then
+	elseif key == "-" and event.isAltDown then -- OS X mapping for +/- (Option Minus)
+		key = "sign"
+	elseif key == "f9" then -- Windows desktop mapping for +/-
 		key = "sign"
 	elseif key == "numPad0" then
 		key = "0"
