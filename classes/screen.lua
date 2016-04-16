@@ -20,7 +20,7 @@ function class.newScreen(height)
 	-- Button background - filled rect object
 	local back = display.newRect(display.screenOriginX + width / 2, display.screenOriginY + height / 2, width, height)
 	-- New text object. New syntax used, so "align" property supported there.
-	local text = display.newText({text = "0", x = 0, y = 0, fontSize = defaultFontSize, font = "Helvetica Neue Thin", align = "right"})
+	local text = display.newText({text = "0", x = 0, y = 0, fontSize = defaultFontSize, font = "Roboto-Light.ttf", align = "right"})
 	-- Background color
 	back:setFillColor(unpack(colors.screenBackground))
 	-- Text color

@@ -16,7 +16,7 @@ function class.newButton(labelTxt, width, height, backgroundColor, labelColor, i
 	-- Button background - filled rect object
 	local back = display.newRect(0, 0, width, height)
 	-- Buttons label - text object
-	local label = display.newText(labelTxt, 0, 0, "Helvetica Neue Thin", 32)
+	local label = display.newText(labelTxt, 0, 0, "Roboto-Thin.ttf", 32)
 	-- Align to top left corner in display group
 	back.x, back.y, label.x, label.y = 0, 0, 0, 0
 	if isWide then

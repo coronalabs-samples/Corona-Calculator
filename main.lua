@@ -6,7 +6,7 @@
 --
 -- main.lua -- App entry point. Sets up the User Interface, handles button presses
 --
-
+display.setStatusBar( display.TranslucentStatusBar )
 -- List of all colors
 local colors = require("classes.colors")
 --Loading our helper classes : button, calculator display and math helper
@@ -17,7 +17,7 @@ local calculator = require("classes.calculator")
 --Buttons positions, labels and color settings. Order matters! Colors are 0-255 based and are converted to Corona SDK's 0..1 base later.
 local buttonData = {
 	{label = "AC",  action = "reset",    key = "c", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "⁺∕₋",  action = "sign",  key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "+/-",  action = "sign", key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
 	{label = "%",   action = "percent",  key = "%", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
 	{label = "÷",   action = "divide",   key = "/", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
 	{label = "7",   action = 7,          key = "7", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
