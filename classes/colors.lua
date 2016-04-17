@@ -6,7 +6,8 @@ local colors = {
 	secondaryBackground = {0.83921568627451},
 	secondaryLabel = {0},
 	numpadBackground = {0.87843137254902},
-	numpadLabel = {0}
+	numpadLabel = {0},
+	buttonStrokeColor = {0.55686274509804}
 }
 
 return colors

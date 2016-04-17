@@ -6,64 +6,64 @@
 --
 -- main.lua -- App entry point. Sets up the User Interface, handles button presses
 --
-display.setStatusBar( display.TranslucentStatusBar )
+display.setStatusBar(display.TranslucentStatusBar)
 -- List of all colors
 local colors = require("classes.colors")
---Loading our helper classes : button, calculator display and math helper
+-- Loading our helper classes : button, calculator display and math helper
 local newButton = require("classes.button").newButton
 local newScreen = require("classes.screen").newScreen
 local calculator = require("classes.calculator")
 
---Buttons positions, labels and color settings. Order matters! Colors are 0-255 based and are converted to Corona SDK's 0..1 base later.
+-- Buttons positions, labels and color settings. In order of displaying in the grid
 local buttonData = {
-	{label = "AC",  action = "reset",    key = "c", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "+/-",  action = "sign", key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "%",   action = "percent",  key = "%", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "÷",   action = "divide",   key = "/", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "7",   action = 7,          key = "7", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "8",   action = 8,          key = "8", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "9",   action = 9,          key = "9", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "×",   action = "multiply", key = "*", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "4",   action = 4,          key = "4", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "5",   action = 5,          key = "5", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "6",   action = 6,          key = "6", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "‒",   action = "subtract", key = "-", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "1",   action = 1,          key = "1", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "2",   action = 2,          key = "2", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "3",   action = 3,          key = "3", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "+",   action = "add",      key = "+", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "0",   action = 0,          key = "0", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
-	{label = ".",   action = "point",    key = ".", backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "=",   action = "result",   key = "=", backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
+	{label = "AC",  action = "reset",    key = "c",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "+/-", action = "sign",     key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "%",   action = "percent",  key = "%",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "÷",   action = "divide",   key = "/",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "7",   action = 7,          key = "7",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "8",   action = 8,          key = "8",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "9",   action = 9,          key = "9",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "×",   action = "multiply", key = "*",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "4",   action = 4,          key = "4",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "5",   action = 5,          key = "5",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "6",   action = 6,          key = "6",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "–",   action = "subtract", key = "-",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "1",   action = 1,          key = "1",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "2",   action = 2,          key = "2",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "3",   action = 3,          key = "3",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "+",   action = "add",      key = "+",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "0",   action = 0,          key = "0",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
+	{label = ".",   action = "point",    key = ".",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "=",   action = "result",   key = "=",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
 }
 
 -- AC button is special
 local acButton
--- store a local reference to the buttons. We need this to support key events
-local buttons = {} 
+-- Store a local reference to the buttons. We need this to support key events
+local buttons = {}
 
---Width and height of our buttons - we have 4 buttons in a row.
+-- Width and height of our buttons - we have 4 buttons in a row
 local buttonWidth = display.actualContentWidth / 4
 local buttonHeight = math.floor(buttonWidth * 0.82)
---Space for display - all free space
+-- Space for display - all free space
 local top = display.actualContentHeight - buttonHeight * 6
---Numeric button pressed flag
+-- Numeric button pressed flag
 local numPressed = true
---Calculator display string
+-- Calculator display string
 local displayStr = "0"
---How many symbols will fit on screen
-local maxLength = 40
+-- How many symbols will fit on screen
+local maxLength = 42
 
 --Creating display screen
-local calcScreen = newScreen(top + buttonHeight )
+local calcScreen = newScreen(top + buttonHeight)
 
 --
 -- Buttons touch event handler
--- This code will do the work for each button press.
+-- This code will do the work for each button press
 --
 local function buttonTouch(self, event)
-	--This code changes button state/color.
-	--Handle touch only if touch ended
+	-- This code changes button state/color
+	-- Handle touch only if touch ended
 	if event.phase == "began" then
 		self:setPressed(true)
 		self.isFocused = true
@@ -79,107 +79,107 @@ local function buttonTouch(self, event)
 		end
 	end
 
-	--What button pressed?
+	-- What button is pressed?
 	local action = self.action
 	if type(action) == "number" then
-		--It's numeric or decimal button
-		--Check if we started new input
+		-- It's a numeric or decimal button
+		-- Check if we started a new input
 		if not numPressed or displayStr == "0" then
 			displayStr = ""
 		end
 
-		--Set flag that numeric button clicked, all next numbers will be appended to 1 string, until any func button clicked
+		-- Set flag that a numeric button clicked, all next numbers will be appended to displayStr, until any func button is clicked
 		numPressed = true
-		--AC button to C
+		-- Turn AC button into C
 		acButton:toC()
-		--Limit maxLength symbols on screen
+		-- Limit maxLength symbols on screen
 		if displayStr:len() < maxLength then
 			displayStr = displayStr .. action
-			--Display number
+			-- Display the number
 			calcScreen:setLabel(displayStr)
 		end
 	elseif action == "point" then
 		if not numPressed then
 			displayStr = "0."
-			--AC button to C
+			-- Turn AC button into C
 			acButton:toC()
 		elseif not displayStr:find("%.") and displayStr:len() < maxLength then
 			displayStr = displayStr .. "."
 		end
 		numPressed = true
-		--Display number
+		-- Display the number
 		calcScreen:setLabel(displayStr)
 	elseif action == "sign" then
-		--Sign button clicked - convert number
+		-- Sign button is clicked - invert number
 		numPressed = true
 		if displayStr ~= "0" then
-			--Invert number
+			-- Invert number
 			displayStr = calculator.invert(displayStr)
 			calcScreen:setLabel(displayStr)
 		end
 	elseif action == "clear" then
-		--C button clicked - clear operand
+		-- C button is clicked - clear operand
 		displayStr = "0"
 		numPressed = true
 		calculator.clearOperand()
 		calcScreen:setLabel(displayStr)
-		--C button to AC
+		-- Turn C button into AC
 		acButton:toAC()
 	elseif action == "reset" then
-		--AC button clicked - reset everything
+		-- AC button is clicked - reset everything
 		displayStr = "0"
 		numPressed = true
 		calculator.clear()
 		calcScreen:setLabel(displayStr)
 	else
-		--IF any of functional buttons clicked - pass operands and operator to calc class, get and display results
-		--Pass new typed number to calc class
+		-- If any of the functional buttons is clicked - pass operands and operator to the calculator class, get and display the result
+		-- Pass new typed number to calc class
 		if numPressed then
 			calculator.setOperand(displayStr)
 		end
-		--Pass current math operator to calc class
+		-- Pass current math operator to the calculator class
 		calculator.setOperator(action)
-		--Get result from calc class
+		-- Get the result from the calculator class
 		displayStr = calculator.getResult()
-		-- If there is error(division by zero) - display "Error" on display
+		-- If there is an error (division by zero) - display "Error" on the screen
 		if calculator.error then
 			displayStr = "ERROR"
 		end
-		--If there is new result - show animation
 		calcScreen:setLabel(displayStr)
 		numPressed = false
 	end
 	return true
 end
 
---Draws all butoons
---We have 5 rows X 4 columns, all buttons has same width and height, except "0" - we have a special flag for this button
-local pos = 0
-for i = 1, #buttonData do --Go over all buttons in our config table
+-- Draw all the buttons
+-- We have 5 rows X 4 columns grid, all buttons have the same width and height, except "0" - we have a special flag for that button
+local position = 0
+for i = 1, #buttonData do -- Iterate over all buttons in our config table
 	local b = buttonData[i]
-	pos = pos + 1	--real screen pos, we need this because of  "0" double width button
+	position = position + 1 -- real screen position, we need this because of  "0" double width button
 	local w, h = buttonWidth, buttonHeight
-	--If there is double width flag
+	-- If there is a double width flag
 	if b.isWide then
 		w = w * 2
 	end
-	--Create new button using our calculator button class
+	-- Create a new button using our button class
 	local button = newButton(b.label, w, h, b.backgroundColor, b.labelColor, b.isWide)
-	button.action = b.action
-	button.key = b.key
-	-- button(center) position - 4 buttons in a row
-	button.x = display.screenOriginX + math.floor((pos - 1) % 4) * w + w / 2
-	button.y = display.screenOriginY + math.floor((pos - 1) / 4) * h + top + h
-	--if current button("0") has double width - move actual position to next column
+	button.action = b.action -- What action performs this button
+	button.key = b.key -- What is the keyboard binding key for this button
+	-- Screen coordinats, 4 buttons in a row
+	button.x = display.screenOriginX + math.floor((position - 1) % 4) * w + w / 2
+	button.y = display.screenOriginY + math.floor((position - 1) / 4) * h + top + h
+	-- If the current button has double width - move actual position to the next column
 	if b.isWide then
-		pos = pos + 1
+		position = position + 1
 	end
-	--Button touch listener. We using touch, instead of tap, because we need to handle buttons normal/pushed states.
+	-- Button touch listener. We use touch instead of tap because we need to handle normal/pressed states
 	button.touch = buttonTouch
 	button:addEventListener("touch")
 	-- Save a reference to the button
-	buttons[ #buttons + 1 ] = button
+	buttons[#buttons + 1] = button
 
+	-- Give our special button special ability - support both AC and C modes
 	if b.label == "AC" then
 		acButton = button
 		function acButton:toAC()
@@ -197,21 +197,21 @@ end
 -- Add key support for desktop builds
 --
 -- Capture the keystroke
--- Make a new "touch" event table and map "up" and "down" key phases to "ended" and "began" touch phases.
+-- Make a new "touch" event table and map "up" and "down" key phases to "ended" and "began" touch phases
 -- Map any keys with weirdness. For instance + is SHIFT-=, * is SHIFT-8. The Numeric KeyPad keys all need
 -- mapped as well. Make both enter keys the same as =
 -- Loop over the buttons and see if our pressed key matches the defined key and if so
 -- Call the touch function for that button with our made up event table
--- The touch function currently only cares about the phase of the touch, so we don't need to 
+-- The touch function currently only cares about the phase of the touch, so we don't need to
 -- pass in the x, y, and other variables. If the touch handler gets updated in the future to need
 -- any of these extra values, then this function will need to be updated to pass them.pass
 --
-local function onKeyEvent( event )
+local function onKeyEvent(event)
 	local e = {}
 	e.name = "touch"
 	if event.phase == "up" then
 		e.phase = "ended"
-	else 
+	else
 		e.phase = "began"
 	end
 	local key = event.keyName
@@ -266,10 +266,10 @@ local function onKeyEvent( event )
 	end
 	for i = 1, #buttons do
 		if buttons[i].key == key then
-			buttons[i]:touch( e )
+			buttons[i]:touch(e)
 			return true
 		end
 	end
     return false
 end
-Runtime:addEventListener( "key", onKeyEvent )
+Runtime:addEventListener("key", onKeyEvent)

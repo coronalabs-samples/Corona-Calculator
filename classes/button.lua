@@ -4,10 +4,12 @@
 --
 -- MIT Licensed
 --
--- Class that draws calculator button
+-- Class that makes calculator buttons
 --
+local colors = require("classes.colors")
+
 local class = {}
--- Create method - accepts button label, width and height, button color and text color
+-- newButton method - accepts button label, width and height, background color, label color and wide flag
 function class.newButton(labelTxt, width, height, backgroundColor, labelColor, isWide)
 	-- Let's create new display group for our button objects
 	local button = display.newGroup()
@@ -15,10 +17,11 @@ function class.newButton(labelTxt, width, height, backgroundColor, labelColor, i
 	button.anchorChildren = true
 	-- Button background - filled rect object
 	local back = display.newRect(0, 0, width, height)
-	-- Buttons label - text object
+	-- Button label - text object
 	local label = display.newText(labelTxt, 0, 0, "Roboto-Thin.ttf", 32)
-	-- Align to top left corner in display group
+	-- Zero position
 	back.x, back.y, label.x, label.y = 0, 0, 0, 0
+	-- Move the label a little if it's a wide button
 	if isWide then
 		label.x = -width / 4
 	end
@@ -27,7 +30,7 @@ function class.newButton(labelTxt, width, height, backgroundColor, labelColor, i
 	label:setFillColor(unpack(labelColor))
 	-- Button border width and color
 	back.strokeWidth = 1
-	back:setStrokeColor(0.55686274509804)
+	back:setStrokeColor(colors.buttonStrokeColor)
 	-- Set's buttons label
 	button.label = labelTxt
 	-- Adding our objects to display group

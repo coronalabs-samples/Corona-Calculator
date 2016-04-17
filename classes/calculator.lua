@@ -16,16 +16,16 @@ local numZero = bn.Int("0")
 -- First and second operands
 class.operand1 = bn.Int("0")
 class.operand2 = nil
--- operator - math func
+-- Math operator
 class.operator = ""
 -- Division by zero error flag
 class.error = false
--- This flag set when new result generated, used for animation in main code
+-- This flag is set when a new result is generated
 class.result = false
--- Temporary variable for operand2, used if we want to repeat last operation(clicking "=" multiple times)
+-- Temporary variable for operand2, used if we want to repeat last operation (by clicking "=" multiple times)
 class.tmpOperand = nil
 
--- Method to set operands for our func
+-- Method to set operands for our calculations
 function class.setOperand(value)
 	local num = bn.Float(value)
 	if class.operand1 == numZero then
@@ -49,9 +49,9 @@ function class.setOperator(str)
 	end
 	class.tmpOperand = nil
 
-	-- If we have have both operands and operator - perform math function and save result to operand1
+	-- If we have both operands and operator - perform math function and save result to operand1
 	if class.operand2 and class.operator ~= "" then
-		-- set flag that we will have some result
+		-- Set flag that we will have some result
 		class.result = true
 		-- Math functions:
 		if class.operator == "subtract" then
@@ -63,7 +63,7 @@ function class.setOperator(str)
 		elseif class.operator == "multiply" then
 			class.operand1 = class.operand1 * class.operand2
 		elseif class.operator == "divide" then
-			-- Division - check if operand2 not Zero, set error flag if needed.
+			-- Division - check if operand2 is not Zero, set error flag if needed
 			if class.operand2 == numZero then
 				class.clear()
 				class.error = true
@@ -76,7 +76,7 @@ function class.setOperator(str)
 		if str == "result" then
 			class.tmpOperand = class.operand2
 		end
-		-- Clear operand2, ready for next operation
+		-- Clear operand2, ready for the next operation
 		class.operand2 = nil
 	end
 	-- Save curent operator
