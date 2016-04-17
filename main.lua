@@ -51,11 +51,11 @@ local top = display.actualContentHeight - buttonHeight * 6
 local numPressed = true
 --Calculator display string
 local displayStr = "0"
---How many symblos will fit on screen
+--How many symbols will fit on screen
 local maxLength = 40
 
 --Creating display screen
-local calcScreen = newScreen(top + buttonHeight)
+local calcScreen = newScreen(top + buttonHeight )
 
 --
 -- Buttons touch event handler

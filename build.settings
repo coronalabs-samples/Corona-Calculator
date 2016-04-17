@@ -31,7 +31,7 @@ settings = {
 		plist = {
 			UIStatusBarHidden = false,
 			UIPrerenderedIcon = true, -- set to false for "shine" overlay
-
+            ITSAppUsesNonExemptEncryption = false,
             CFBundleIconFiles = {
                 "Icon.png",
                 "Icon@2x.png",

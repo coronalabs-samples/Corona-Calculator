@@ -17,8 +17,13 @@ function class.newScreen(height)
 	local width = display.actualContentWidth
 	-- New display group that will contain our objects(only 1 object for now)
 	local screen = display.newGroup()
-	-- Button background - filled rect object
-	local back = display.newRect(display.screenOriginX + width / 2, display.screenOriginY + height / 2, width, height)
+	-- Button background - filled rect object. Adjust for status bars when our buttons want to fill the screen like on tablets.
+	local back = display.newRect(display.screenOriginX + width / 2, display.screenOriginY + display.topStatusBarContentHeight + height / 2, width, height - display.topStatusBarContentHeight)
+	-- On tablets with status bars and soft button bars, our text could extend into the top status bar. If
+	-- we don't have enough room to fit the text bring it's point size down to something that will fit.
+	if (height - display.topStatusBarContentHeight - 5) < defaultFontSize then
+		defaultFontSize = height - display.topStatusBarContentHeight - 5
+	end
 	-- New text object. New syntax used, so "align" property supported there.
 	local text = display.newText({text = "0", x = 0, y = 0, fontSize = defaultFontSize, font = "Roboto-Light.ttf", align = "right"})
 	-- Background color
@@ -31,7 +36,7 @@ function class.newScreen(height)
 	text.anchorY = 1
 	-- Setting display position(setting coordiantes of the bottom left corner)
 	text.x = display.screenOriginX + width * 0.95
-	text.y = display.screenOriginY + height
+	text.y = display.screenOriginY + height + display.topStatusBarContentHeight
 	-- Insert our back and text objects to screen group.
 	screen:insert(back)
 	screen:insert(text)
