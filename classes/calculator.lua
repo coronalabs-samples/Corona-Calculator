@@ -4,7 +4,7 @@
 --
 -- MIT Licensed
 --
--- calc.lua This is calc assitant class for all math functions. It works as small stacks - accepts numbers and operands, outputs result
+-- calc.lua This is calc assistant class for all math functions. It works as small stacks - accepts numbers and operands, outputs result
 --
 
 -- This library deals with huge numbers without losing precision
@@ -24,6 +24,8 @@ class.error = false
 class.result = false
 -- Temporary variable for operand2, used if we want to repeat last operation (by clicking "=" multiple times)
 class.tmpOperand = nil
+-- Save the current memory value here
+class.memory = 0
 
 -- Method to set operands for our calculations
 function class.setOperand(value)
@@ -103,5 +105,27 @@ function class.clearOperand()
 	class.operand2 = nil
 	class.tmpOperand = nil
 end
+
+-- This method clears memory
+function class.memoryClear()
+	class.memory = 0
+end
+
+-- This method returns the current memory value
+function class.memoryRecall()
+	class.setOperand( class.memory )
+	return class.memory
+end
+
+-- This method will increment the saved memory value
+function class.memoryAdd( amount )
+	class.memory = class.memory + amount
+end
+
+-- This method will decrement the saved memory value
+function class.memorySubtract( amount )
+	class.memory = class.memory - amount
+end
+
 
 return class

@@ -1,6 +1,6 @@
 --
 -- Corona-Calculator
--- A simple calcuator made with Corona SDK
+-- A simple calculator made with Corona SDK
 --
 -- MIT Licensed
 --
@@ -16,25 +16,29 @@ local calculator = require("classes.calculator")
 
 -- Buttons positions, labels and color settings. In order of displaying in the grid
 local buttonData = {
-	{label = "AC",  action = "reset",    key = "c",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "+/-", action = "sign",     key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "%",   action = "percent",  key = "%",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "÷",   action = "divide",   key = "/",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "7",   action = 7,          key = "7",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "8",   action = 8,          key = "8",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "9",   action = 9,          key = "9",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "×",   action = "multiply", key = "*",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "4",   action = 4,          key = "4",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "5",   action = 5,          key = "5",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "6",   action = 6,          key = "6",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "–",   action = "subtract", key = "-",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "1",   action = 1,          key = "1",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "2",   action = 2,          key = "2",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "3",   action = 3,          key = "3",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "+",   action = "add",      key = "+",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "0",   action = 0,          key = "0",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
-	{label = ".",   action = "point",    key = ".",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "=",   action = "result",   key = "=",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
+	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "AC",  action = "reset",     key = "c",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "+/-", action = "sign",      key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "%",   action = "percent",   key = "%",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "÷",   action = "divide",    key = "/",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "7",   action = 7,           key = "7",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "8",   action = 8,           key = "8",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "9",   action = 9,           key = "9",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "×",   action = "multiply",  key = "*",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "4",   action = 4,           key = "4",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "5",   action = 5,           key = "5",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "6",   action = 6,           key = "6",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "–",   action = "subtract",  key = "-",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "1",   action = 1,           key = "1",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "2",   action = 2,           key = "2",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "3",   action = 3,           key = "3",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "+",   action = "add",       key = "+",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "0",   action = 0,           key = "0",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
+	{label = ".",   action = "point",     key = ".",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "=",   action = "result",    key = "=",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
 }
 
 -- AC button is special
@@ -44,9 +48,9 @@ local buttons = {}
 
 -- Width and height of our buttons - we have 4 buttons in a row
 local buttonWidth = display.actualContentWidth / 4
-local buttonHeight = math.floor(buttonWidth * 0.82)
+local buttonHeight = math.floor(buttonWidth * 0.75)
 -- Space for display - all free space
-local top = display.actualContentHeight - buttonHeight * 6
+local top = display.actualContentHeight - buttonHeight * 7
 -- Numeric button pressed flag
 local numPressed = true
 -- Calculator display string
@@ -93,7 +97,7 @@ local function buttonTouch(self, event)
 		-- Turn AC button into C
 		acButton:toC()
 		-- Limit maxLength symbols on screen
-		if displayStr:len() < maxLength then
+		if displayStr and ( displayStr:len() < maxLength ) then
 			displayStr = displayStr .. action
 			-- Display the number
 			calcScreen:setLabel(displayStr)
@@ -109,6 +113,21 @@ local function buttonTouch(self, event)
 		numPressed = true
 		-- Display the number
 		calcScreen:setLabel(displayStr)
+	elseif action == "memadd" then
+		-- this works behind the scene. It will not change the display.
+		calculator.memoryAdd( displayStr )
+		numPressed = false
+	elseif action == "memsub" then
+		-- this works behind the scene. It will not change the display.
+		calculator.memorySubtract( displayStr )
+		numPressed = false
+	elseif action == "memclear" then
+		-- This will clear the memory, but will not update the display.
+		calculator.memoryClear()
+	elseif action == "memrecall" then
+		displayStr = tostring( calculator.memoryRecall() )
+		calcScreen:setLabel( displayStr )
+		numPressed = false
 	elseif action == "sign" then
 		-- Sign button is clicked - invert number
 		numPressed = true
@@ -152,7 +171,7 @@ local function buttonTouch(self, event)
 end
 
 -- Draw all the buttons
--- We have 5 rows X 4 columns grid, all buttons have the same width and height, except "0" - we have a special flag for that button
+-- We have 6 rows X 4 columns grid, all buttons have the same width and height, except "0" - we have a special flag for that button
 local position = 0
 for i = 1, #buttonData do -- Iterate over all buttons in our config table
 	local b = buttonData[i]
@@ -225,6 +244,14 @@ local function onKeyEvent(event)
 		key = "sign"
 	elseif key == "f9" then -- Windows desktop mapping for +/-
 		key = "sign"
+	elseif key == "l" and event.isCtrlDown then
+		key = "MC"
+	elseif key == "p" and event.isCtrlDown then
+		key = "M+"
+	elseif key == "o" and event.isCtrlDown then
+		key = "M-"
+	elseif key == "r" and event.isCtrlDown then
+		key = "MR"
 	elseif key == "numPad0" then
 		key = "0"
 	elseif key == "numPad1" then
