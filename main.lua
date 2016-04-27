@@ -116,11 +116,11 @@ local function buttonTouch(self, event)
 	elseif action == "memadd" then
 		-- this works behind the scene. It will not change the display.
 		calculator.memoryAdd( displayStr )
-		numPressed = false
+		numPressed = true
 	elseif action == "memsub" then
 		-- this works behind the scene. It will not change the display.
 		calculator.memorySubtract( displayStr )
-		numPressed = false
+		numPressed = true
 	elseif action == "memclear" then
 		-- This will clear the memory, but will not update the display.
 		calculator.memoryClear()
