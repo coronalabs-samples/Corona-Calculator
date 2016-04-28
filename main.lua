@@ -16,10 +16,10 @@ local calculator = require("classes.calculator")
 
 -- Buttons positions, labels and color settings. In order of displaying in the grid
 local buttonData = {
-	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
-	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
-	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
-	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+--	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+--	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+--	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+--	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
 	{label = "AC",  action = "reset",     key = "c",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
 	{label = "+/-", action = "sign",      key = "sign",  backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
 	{label = "%",   action = "percent",   key = "%",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
@@ -50,7 +50,7 @@ local buttons = {}
 local buttonWidth = display.actualContentWidth / 4
 local buttonHeight = math.floor(buttonWidth * 0.75)
 -- Space for display - all free space
-local top = display.actualContentHeight - buttonHeight * 7
+local top = display.actualContentHeight - buttonHeight * 6
 -- Functional button pressed flag
 local isLastFunctional = true
 -- Calculator display string
