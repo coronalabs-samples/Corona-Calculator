@@ -16,29 +16,29 @@ local calculator = require("classes.calculator")
 
 -- Buttons positions, labels and color settings. In order of displaying in the grid
 local buttonData = {
-	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "AC",  action = "reset",     key = "c",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "+/-", action = "sign",      key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "%",   action = "percent",   key = "%",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "÷",   action = "divide",    key = "/",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "7",   action = 7,           key = "7",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "8",   action = 8,           key = "8",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "9",   action = 9,           key = "9",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "×",   action = "multiply",  key = "*",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "4",   action = 4,           key = "4",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "5",   action = 5,           key = "5",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "6",   action = 6,           key = "6",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "–",   action = "subtract",  key = "-",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "1",   action = 1,           key = "1",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "2",   action = 2,           key = "2",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "3",   action = 3,           key = "3",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "+",   action = "add",       key = "+",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "0",   action = 0,           key = "0",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
-	{label = ".",   action = "point",     key = ".",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "=",   action = "result",    key = "=",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
+	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "AC",  action = "reset",     key = "c",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "+/-", action = "sign",      key = "sign",  backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "%",   action = "percent",   key = "%",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "÷",   action = "divide",    key = "/",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "7",   action = 7,           key = "7",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "8",   action = 8,           key = "8",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "9",   action = 9,           key = "9",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "×",   action = "multiply",  key = "*",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "4",   action = 4,           key = "4",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "5",   action = 5,           key = "5",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "6",   action = 6,           key = "6",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "–",   action = "subtract",  key = "-",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "1",   action = 1,           key = "1",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "2",   action = 2,           key = "2",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "3",   action = 3,           key = "3",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "+",   action = "add",       key = "+",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "0",   action = 0,           key = "0",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
+	{label = ".",   action = "point",     key = ".",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "=",   action = "result",    key = "=",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
 }
 
 -- AC button is special
@@ -51,8 +51,8 @@ local buttonWidth = display.actualContentWidth / 4
 local buttonHeight = math.floor(buttonWidth * 0.75)
 -- Space for display - all free space
 local top = display.actualContentHeight - buttonHeight * 7
--- Numeric button pressed flag
-local numPressed = true
+-- Functional button pressed flag
+local isLastFunctional = true
 -- Calculator display string
 local displayStr = "0"
 -- How many symbols will fit on screen
@@ -88,84 +88,84 @@ local function buttonTouch(self, event)
 	if type(action) == "number" then
 		-- It's a numeric or decimal button
 		-- Check if we started a new input
-		if not numPressed or displayStr == "0" then
+		if isLastFunctional or displayStr == "0" then
 			displayStr = ""
 		end
 
-		-- Set flag that a numeric button clicked, all next numbers will be appended to displayStr, until any func button is clicked
-		numPressed = true
 		-- Turn AC button into C
 		acButton:toC()
 		-- Limit maxLength symbols on screen
-		if displayStr and ( displayStr:len() < maxLength ) then
+		if displayStr and displayStr:len() < maxLength then
 			displayStr = displayStr .. action
 			-- Display the number
 			calcScreen:setLabel(displayStr)
 		end
+		-- Set flag that a numeric button clicked, all next numbers will be appended to displayStr, until any func button is clicked
+		isLastFunctional = false
 	elseif action == "point" then
-		if not numPressed then
+		if isLastFunctional then
 			displayStr = "0."
 			-- Turn AC button into C
 			acButton:toC()
+			isLastFunctional = false
 		elseif not displayStr:find("%.") and displayStr:len() < maxLength then
 			displayStr = displayStr .. "."
 		end
-		numPressed = true
 		-- Display the number
 		calcScreen:setLabel(displayStr)
 	elseif action == "memadd" then
 		-- this works behind the scene. It will not change the display.
-		calculator.memoryAdd( displayStr )
-		numPressed = false
+		calculator.memoryAdd(displayStr)
 	elseif action == "memsub" then
 		-- this works behind the scene. It will not change the display.
-		calculator.memorySubtract( displayStr )
-		numPressed = false
+		calculator.memorySubtract(displayStr)
 	elseif action == "memclear" then
 		-- This will clear the memory, but will not update the display.
 		calculator.memoryClear()
 	elseif action == "memrecall" then
-		displayStr = tostring( calculator.memoryRecall() )
-		calcScreen:setLabel( displayStr )
-		numPressed = false
+		displayStr = calculator.memoryRecall()
+		calcScreen:setLabel(displayStr)
 	elseif action == "sign" then
 		-- Sign button is clicked - invert number
-		numPressed = true
 		if displayStr ~= "0" then
 			-- Invert number
 			displayStr = calculator.invert(displayStr)
 			calcScreen:setLabel(displayStr)
 		end
+		calcScreen:blink()
 	elseif action == "clear" then
 		-- C button is clicked - clear operand
 		displayStr = "0"
-		numPressed = true
 		calculator.clearOperand()
 		calcScreen:setLabel(displayStr)
+		calcScreen:blink()
 		-- Turn C button into AC
 		acButton:toAC()
 	elseif action == "reset" then
 		-- AC button is clicked - reset everything
 		displayStr = "0"
-		numPressed = true
 		calculator.clear()
 		calcScreen:setLabel(displayStr)
 	else
 		-- If any of the functional buttons is clicked - pass operands and operator to the calculator class, get and display the result
-		-- Pass new typed number to calc class
-		if numPressed then
+		-- Pass current number to the calculator class
+		if not isLastFunctional or action == "result" then
 			calculator.setOperand(displayStr)
 		end
 		-- Pass current math operator to the calculator class
-		calculator.setOperator(action)
-		-- Get the result from the calculator class
-		displayStr = calculator.getResult()
-		-- If there is an error (division by zero) - display "Error" on the screen
-		if calculator.error then
-			displayStr = "ERROR"
+		if calculator.setOperator(action) then
+			-- Get the result from the calculator class
+			displayStr = calculator.getResult()
+			-- If there is an error (division by zero) - display "Error" on the screen
+			if calculator.error then
+				displayStr = "ERROR"
+			end
 		end
 		calcScreen:setLabel(displayStr)
-		numPressed = false
+		calcScreen:blink()
+	end
+	if type(action) ~= "number" and action ~= "point" then
+		isLastFunctional = true
 	end
 	return true
 end

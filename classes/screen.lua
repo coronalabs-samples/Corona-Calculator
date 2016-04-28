@@ -43,6 +43,14 @@ function class.newScreen(height)
 		end
 	end
 	screen:setLabel("0")
+
+	-- Blink the screen to indicate an update
+	function screen:blink()
+		text.isVisible = false
+		timer.performWithDelay(50, function()
+			text.isVisible = true
+		end)
+	end
 	return screen
 end
 
