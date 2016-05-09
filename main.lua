@@ -16,29 +16,29 @@ local calculator = require("classes.calculator")
 
 -- Buttons positions, labels and color settings. In order of displaying in the grid
 local buttonData = {
---	{label = "MC",  action = "memclear",  key = "MC",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
---	{label = "M+",  action = "memadd",    key = "M+",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
---	{label = "M-",  action = "memsub",    key = "M-",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
---	{label = "MR",  action = "memrecall", key = "MR",    backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
-	{label = "AC",  action = "reset",     key = "c",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "+/-", action = "sign",      key = "sign",  backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "%",   action = "percent",   key = "%",     backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
-	{label = "÷",   action = "divide",    key = "/",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "7",   action = 7,           key = "7",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "8",   action = 8,           key = "8",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "9",   action = 9,           key = "9",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "×",   action = "multiply",  key = "*",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "4",   action = 4,           key = "4",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "5",   action = 5,           key = "5",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "6",   action = 6,           key = "6",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "–",   action = "subtract",  key = "-",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "1",   action = 1,           key = "1",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "2",   action = 2,           key = "2",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "3",   action = 3,           key = "3",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "+",   action = "add",       key = "+",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
-	{label = "0",   action = 0,           key = "0",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
-	{label = ".",   action = "point",     key = ".",     backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
-	{label = "=",   action = "result",    key = "=",     backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
+	{label = "MC",  action = "memclear",  key = "MC",   backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "M+",  action = "memadd",    key = "M+",   backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "M-",  action = "memsub",    key = "M-",   backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "MR",  action = "memrecall", key = "MR",   backgroundColor = colors.memoryBackground,    labelColor = colors.memoryLabel},
+	{label = "AC",  action = "reset",     key = "c",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "+/-", action = "sign",      key = "sign", backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "%",   action = "percent",   key = "%",    backgroundColor = colors.secondaryBackground, labelColor = colors.secondaryLabel},
+	{label = "÷",   action = "divide",    key = "/",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "7",   action = 7,           key = "7",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "8",   action = 8,           key = "8",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "9",   action = 9,           key = "9",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "×",   action = "multiply",  key = "*",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "4",   action = 4,           key = "4",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "5",   action = 5,           key = "5",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "6",   action = 6,           key = "6",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "–",   action = "subtract",  key = "-",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "1",   action = 1,           key = "1",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "2",   action = 2,           key = "2",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "3",   action = 3,           key = "3",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "+",   action = "add",       key = "+",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel},
+	{label = "0",   action = 0,           key = "0",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel, isWide = true},
+	{label = ".",   action = "point",     key = ".",    backgroundColor = colors.numpadBackground,    labelColor = colors.numpadLabel},
+	{label = "=",   action = "result",    key = "=",    backgroundColor = colors.primaryBackground,   labelColor = colors.primaryLabel}
 }
 
 -- AC button is special
@@ -50,7 +50,7 @@ local buttons = {}
 local buttonWidth = display.actualContentWidth / 4
 local buttonHeight = math.floor(buttonWidth * 0.75)
 -- Space for display - all free space
-local top = display.actualContentHeight - buttonHeight * 6
+local top = display.actualContentHeight - buttonHeight * 7
 -- Functional button pressed flag
 local isLastFunctional = true
 -- Calculator display string
@@ -113,18 +113,6 @@ local function buttonTouch(self, event)
 		end
 		-- Display the number
 		calcScreen:setLabel(displayStr)
-	elseif action == "memadd" then
-		-- this works behind the scene. It will not change the display.
-		calculator.memoryAdd(displayStr)
-	elseif action == "memsub" then
-		-- this works behind the scene. It will not change the display.
-		calculator.memorySubtract(displayStr)
-	elseif action == "memclear" then
-		-- This will clear the memory, but will not update the display.
-		calculator.memoryClear()
-	elseif action == "memrecall" then
-		displayStr = calculator.memoryRecall()
-		calcScreen:setLabel(displayStr)
 	elseif action == "sign" then
 		-- Sign button is clicked - invert number
 		if displayStr ~= "0" then
@@ -133,6 +121,18 @@ local function buttonTouch(self, event)
 			calcScreen:setLabel(displayStr)
 		end
 		calcScreen:blink()
+	elseif action == "memclear" then
+		-- This will clear the memory, but will not update the display.
+		calculator.memoryClear()
+	elseif action == "memadd" then
+		-- this works behind the scene. It will not change the display.
+		calculator.memoryAdd(displayStr)
+	elseif action == "memsub" then
+		-- this works behind the scene. It will not change the display.
+		calculator.memorySubtract(displayStr)
+	elseif action == "memrecall" then
+		displayStr = calculator.memoryRecall()
+		calcScreen:setLabel(displayStr)
 	elseif action == "clear" then
 		-- C button is clicked - clear operand
 		displayStr = "0"
@@ -152,7 +152,7 @@ local function buttonTouch(self, event)
 		if not isLastFunctional or action == "result" then
 			calculator.setOperand(displayStr)
 		end
-		-- Pass current math operator to the calculator class
+		-- Pass current math operator to the calculator class and see if there is a result available
 		if calculator.setOperator(action) then
 			-- Get the result from the calculator class
 			displayStr = calculator.getResult()

@@ -48,7 +48,7 @@ function class.setOperator(str)
 	-- If we have saved operand2 and user clicked "=" - repeat last math function,
 	-- so we need to restore operand2 from tmp variable
 	if class.operand1 and class.tmpOperand and str == "result" then
-		class.operand2 = class.tmpOperand
+		class.operand2 = bn.Float(class.tmpOperand)
 	end
 	class.tmpOperand = nil
 
@@ -79,7 +79,7 @@ function class.setOperator(str)
 			class.tmpOperand = class.operand2
 		end
 		-- Copy result to the operand1
-		class.operand1 = class.result
+		class.operand1 = bn.Float(class.result)
 		-- Clear operand2, ready for the next operation
 		class.operand2 = nil
 	end
@@ -106,7 +106,7 @@ end
 
 -- This method clears last operand
 function class.clearOperand()
-	class.tmpOperand = class.result
+	class.tmpOperand = bn.Float(class.result)
 	class.operand1 = nil
 	class.operand2 = nil
 end
@@ -118,17 +118,26 @@ end
 
 -- This method returns the current memory value
 function class.memoryRecall()
+	if class.operand2 == nil then
+		if class.tmpOperand == nil then
+			class.operand2 = bn.Float(class.memory)
+		else
+			class.operand1 = bn.Float(class.memory)
+		end
+	end
 	return tostring(class.memory)
 end
 
 -- This method will increment the saved memory value
 function class.memoryAdd(value)
 	class.memory = class.memory + bn.Float(value)
+	class.setOperand(value)
 end
 
 -- This method will decrement the saved memory value
 function class.memorySubtract(value)
 	class.memory = class.memory - bn.Float(value)
+	class.setOperand(value)
 end
 
 return class
